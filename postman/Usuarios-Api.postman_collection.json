@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "Usuarios API - Gestión de Sesiones y Estado",
+    "description": "Colección de verificación manual para docs/04-plan-pruebas-aceptacion.md",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://localhost:44300" },
+    { "key": "apiKey", "value": "dev-local-00000000000000000000000000000000" },
+    { "key": "usuarioExistente", "value": "usuario.prueba1" },
+    { "key": "usuarioInexistente", "value": "no-existe-999" }
+  ],
+  "item": [
+    {
+      "name": "Cerrar sesión y bloquear - OK",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{apiKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/cerrar-sesion-bloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"{{usuarioExistente}}\",\n  \"motivo\": \"Prueba de aceptación\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Desbloquear - OK",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{apiKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/desbloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"{{usuarioExistente}}\",\n  \"motivo\": \"Prueba de aceptación\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Sin API Key -> 401",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/desbloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"{{usuarioExistente}}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "API Key inválida -> 401",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "clave-claramente-invalida" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/desbloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"{{usuarioExistente}}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Usuario inválido (vacío) -> 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{apiKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/desbloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Usuario inexistente -> 404",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{apiKey}}" }
+        ],
+        "url": "{{baseUrl}}/api/v1/usuarios/desbloquear",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"{{usuarioInexistente}}\"\n}"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+packages/
+publish/
+
+# Secretos locales: NUNCA versionar la clave real, solo la plantilla .sample
+src/Usuarios.Api/Usuarios.Api/Secrets/ApiKeys.config
